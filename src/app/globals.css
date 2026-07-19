@@ -163,7 +163,7 @@ button {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: white;
+  color: var(--text-main);
   background-color: transparent;
   border: 1px solid var(--success);
   border-radius: var(--radius-sm);
