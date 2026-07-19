@@ -9,7 +9,8 @@ import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import EmployeeModal from '@/components/EmployeeModal';
-import { useGetEmployeesQuery, useDeleteEmployeeMutation, useBulkCreateEmployeesMutation } from '@/store/api';
+import ConfirmModal from '@/components/ConfirmModal';
+import { useGetEmployeesQuery, useDeleteEmployeeMutation, useBulkCreateEmployeesMutation, useUpdateEmployeeMutation } from '@/store/api';
 
 export default function EmployeesPage() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -33,6 +34,7 @@ export default function EmployeesPage() {
   });
   
   const [deleteEmployee] = useDeleteEmployeeMutation();
+  const [updateEmployee] = useUpdateEmployeeMutation();
   const [bulkCreate, { isLoading: isUploading }] = useBulkCreateEmployeesMutation();
 
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +56,8 @@ export default function EmployeesPage() {
     });
   }, [bulkCreate]);
 
+  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean, type: 'delete' | 'status', empId: string, empName: string, currentStatus?: string }>({ isOpen: false, type: 'delete', empId: '', empName: '' });
+
   const handleEdit = useCallback((employee: any) => {
     setEditingEmployee(employee);
     setIsModalOpen(true);
@@ -64,11 +68,22 @@ export default function EmployeesPage() {
     setIsModalOpen(true);
   }, []);
 
-  const handleDelete = useCallback(async (id: string) => {
-    if (window.confirm('Are you sure you want to deactivate this employee?')) {
-      await deleteEmployee(id);
+  const executeAction = useCallback(async () => {
+    try {
+      if (confirmModal.type === 'delete') {
+        await deleteEmployee(confirmModal.empId).unwrap();
+        toast.success(`Deleted ${confirmModal.empName}`);
+      } else if (confirmModal.type === 'status') {
+        const newStatus = confirmModal.currentStatus === 'Active' ? 'Inactive' : 'Active';
+        const formData = new FormData();
+        formData.append('status', newStatus);
+        await updateEmployee({ id: confirmModal.empId, data: formData }).unwrap();
+        toast.success(`Marked ${confirmModal.empName} as ${newStatus}`);
+      }
+    } catch (err) {
+      toast.error('Action failed. Try again.');
     }
-  }, [deleteEmployee]);
+  }, [confirmModal, deleteEmployee, updateEmployee]);
 
   return (
     <ProtectedRoute>
@@ -168,16 +183,30 @@ export default function EmployeesPage() {
                             <span style={{ color: 'var(--primary)', fontWeight: 500 }}>{emp.user.role.replace('_', ' ')}</span>
                           </td>
                           <td>
-                            <div style={{ display: 'flex', gap: '0.75rem', color: 'var(--text-muted)' }}>
+                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                               {(user?.role === 'SUPER_ADMIN' || 
                                (user?.role === 'HR_MANAGER' && emp.user.role !== 'HR_MANAGER' && emp.user.role !== 'SUPER_ADMIN') || 
                                user?.employee_profile?.id === emp.id) && (
-                                <button onClick={() => handleEdit(emp)} style={{ cursor: 'pointer', color: 'var(--info)' }}>Edit</button>
+                                <button onClick={() => handleEdit(emp)} style={{ cursor: 'pointer', color: 'var(--info)', background: 'none', border: 'none', padding: '0.25rem' }} title="Edit">
+                                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                </button>
                               )}
                               
-                              {/* RBAC: Only Super Admin can delete */}
+                              {/* RBAC: Only Super Admin can toggle status or delete */}
                               {user?.role === 'SUPER_ADMIN' && (
-                                <button onClick={() => handleDelete(emp.id)} style={{ cursor: 'pointer', color: 'var(--danger)' }}>Delete</button>
+                                <>
+                                  <button onClick={() => setConfirmModal({ isOpen: true, type: 'status', empId: emp.id, empName: emp.name, currentStatus: emp.user.status })} style={{ cursor: 'pointer', color: emp.user.status === 'Active' ? 'var(--warning)' : 'var(--success)', background: 'none', border: 'none', padding: '0.25rem' }} title={emp.user.status === 'Active' ? 'Deactivate' : 'Activate'}>
+                                    {emp.user.status === 'Active' ? (
+                                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    ) : (
+                                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    )}
+                                  </button>
+
+                                  <button onClick={() => setConfirmModal({ isOpen: true, type: 'delete', empId: emp.id, empName: emp.name })} style={{ cursor: 'pointer', color: 'var(--danger)', background: 'none', border: 'none', padding: '0.25rem' }} title="Delete">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                  </button>
+                                </>
                               )}
                             </div>
                           </td>
@@ -200,6 +229,18 @@ export default function EmployeesPage() {
             employeeToEdit={editingEmployee} 
           />
         )}
+
+        <ConfirmModal 
+          isOpen={confirmModal.isOpen}
+          title={confirmModal.type === 'delete' ? 'Confirm Deletion' : 'Confirm Status Change'}
+          message={confirmModal.type === 'delete' 
+            ? `Are you sure you want to permanently delete the employee "${confirmModal.empName}"? This action cannot be undone.` 
+            : `Are you sure you want to change the status of "${confirmModal.empName}" to ${confirmModal.currentStatus === 'Active' ? 'Inactive' : 'Active'}?`}
+          onConfirm={executeAction}
+          onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+          confirmText={confirmModal.type === 'delete' ? 'Delete' : 'Confirm'}
+          confirmType={confirmModal.type === 'delete' ? 'danger' : (confirmModal.currentStatus === 'Active' ? 'warning' : 'success')}
+        />
       </div>
     </ProtectedRoute>
   );
