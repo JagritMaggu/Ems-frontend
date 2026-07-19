@@ -81,14 +81,9 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
         </h2>
         
         <form onSubmit={handleSubmit} className="modal-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Full Name *</label>
-            <input name="name" value={formData.name} onChange={handleChange} required disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }} />
-          </div>
-
-          <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+          <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '1.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
             <div 
-              style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--bg-main)', border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', position: 'relative' }}
+              style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--bg-main)', border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', position: 'relative', flexShrink: 0 }}
               onClick={() => document.getElementById('profileImageInput')?.click()}
             >
               {profileImageFile ? (
@@ -99,9 +94,10 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
                 <svg width="24" height="24" fill="none" stroke="var(--text-muted)" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
               )}
             </div>
-            <div>
-              <p style={{ fontWeight: 500, fontSize: '0.875rem' }}>Profile Picture</p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Click the circle to upload a photo</p>
+            
+            <div style={{ flex: 1 }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Full Name *</label>
+              <input name="name" value={formData.name} onChange={handleChange} required disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }} />
               <input id="profileImageInput" type="file" accept="image/*" onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
             </div>
           </div>
