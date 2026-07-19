@@ -4,7 +4,7 @@ import { RootState } from './index';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
     prepareHeaders: (headers, { getState }) => {
       // In a real app, you'd get the token from state or localStorage
       const token = (getState() as RootState).auth?.token || localStorage.getItem('token');
