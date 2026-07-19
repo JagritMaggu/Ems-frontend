@@ -27,7 +27,6 @@ export default function Sidebar() {
       </div>
       
       <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', paddingLeft: '1rem', marginBottom: '0.5rem', marginTop: '1rem' }}>Main</p>
         
         <Link href="/" className={`sidebar-link ${pathname === '/' ? 'active' : ''}`}>
           <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
