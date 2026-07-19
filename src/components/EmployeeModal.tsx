@@ -156,8 +156,8 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
           
           <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
             <button type="button" onClick={onClose} className="btn-danger">Cancel</button>
-            <button type="submit" className="btn-primary" disabled={isCreating || isUpdating}>
-              {isCreating || isUpdating ? 'Saving...' : 'Save Employee'}
+            <button type="submit" className="btn-primary" disabled={isCreating || isUpdating} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {isCreating || isUpdating ? <span className="spinner"></span> : 'Save Employee'}
             </button>
           </div>
         </form>
