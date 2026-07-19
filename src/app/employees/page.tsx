@@ -169,7 +169,9 @@ export default function EmployeesPage() {
                           </td>
                           <td>
                             <div style={{ display: 'flex', gap: '0.75rem', color: 'var(--text-muted)' }}>
-                              {(user?.role === 'SUPER_ADMIN' || user?.role === 'HR_MANAGER' || user?.employee_profile?.id === emp.id) && (
+                              {(user?.role === 'SUPER_ADMIN' || 
+                               (user?.role === 'HR_MANAGER' && emp.user.role !== 'HR_MANAGER' && emp.user.role !== 'SUPER_ADMIN') || 
+                               user?.employee_profile?.id === emp.id) && (
                                 <button onClick={() => handleEdit(emp)} style={{ cursor: 'pointer', color: 'var(--info)' }}>Edit</button>
                               )}
                               

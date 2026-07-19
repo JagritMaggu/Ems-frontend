@@ -39,6 +39,11 @@ export const apiSlice = createApi({
             ]
           : [{ type: 'Employee', id: 'LIST' }],
     }),
+
+    getEmployeeById: builder.query({
+      query: (id) => `/employees/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Employee', id }],
+    }),
     
     // Dashboard endpoints
     getDashboardStats: builder.query({
@@ -91,6 +96,7 @@ export const apiSlice = createApi({
 export const {
   useLoginMutation,
   useGetEmployeesQuery,
+  useGetEmployeeByIdQuery,
   useGetDashboardStatsQuery,
   useGetOrganizationTreeQuery,
   useCreateEmployeeMutation,

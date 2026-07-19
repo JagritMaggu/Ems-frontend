@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/store/slices/authSlice';
@@ -7,12 +7,17 @@ import { toggleSidebar } from '@/store/slices/uiSlice';
 import { useTheme } from '@/context/ThemeContext';
 import { RootState } from '@/store';
 import toast from 'react-hot-toast';
+import EmployeeModal from './EmployeeModal';
+import { useGetEmployeeByIdQuery } from '@/store/api';
 
 export default function Header({ title }: { title?: string }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
   const { theme, toggleTheme } = useTheme();
+  
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const { data: currentEmployeeData } = useGetEmployeeByIdQuery(user?.employee_profile?.id || '', { skip: !isProfileModalOpen || !user?.employee_profile?.id });
 
   const handleLogout = () => {
     dispatch(logout());
@@ -58,12 +63,15 @@ export default function Header({ title }: { title?: string }) {
             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           )}
         </button>
-        <div style={{ 
+        <div 
+          onClick={() => setIsProfileModalOpen(true)}
+          title="Edit Profile"
+          style={{ 
           width: '36px', height: '36px', 
           borderRadius: '50%', 
           backgroundColor: 'var(--primary-light)', 
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'var(--primary)', fontWeight: 600
+          color: 'var(--primary)', fontWeight: 600, cursor: 'pointer'
         }}>
           {user?.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
         </div>
@@ -75,6 +83,14 @@ export default function Header({ title }: { title?: string }) {
           Logout
         </button>
       </div>
+
+      {isProfileModalOpen && currentEmployeeData?.data && (
+        <EmployeeModal 
+          isOpen={isProfileModalOpen} 
+          onClose={() => setIsProfileModalOpen(false)} 
+          employeeToEdit={currentEmployeeData.data} 
+        />
+      )}
     </header>
   );
 }
