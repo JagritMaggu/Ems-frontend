@@ -240,7 +240,7 @@ export default function EmployeesPage() {
           onConfirm={executeAction}
           onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
           confirmText={confirmModal.type === 'delete' ? 'Delete' : 'Confirm'}
-          confirmType={confirmModal.type === 'delete' ? 'danger' : (confirmModal.currentStatus === 'Active' ? 'warning' : 'success')}
+          confirmType={confirmModal.type === 'delete' ? 'danger' : 'primary'}
         />
       </div>
     </ProtectedRoute>

@@ -7,7 +7,7 @@ interface ConfirmModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   confirmText?: string;
-  confirmType?: 'danger' | 'primary' | 'success';
+  confirmType?: 'danger' | 'primary' | 'success' | 'warning';
 }
 
 export default function ConfirmModal({ isOpen, title, message, onConfirm, onCancel, confirmText = 'Confirm', confirmType = 'danger' }: ConfirmModalProps) {
@@ -20,7 +20,7 @@ export default function ConfirmModal({ isOpen, title, message, onConfirm, onCanc
         <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.5' }}>{message}</p>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
           <button 
-            style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-main)', cursor: 'pointer', fontWeight: 500 }}
+            className="btn-danger"
             onClick={onCancel}
           >
             Cancel
