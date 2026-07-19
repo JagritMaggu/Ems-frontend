@@ -48,13 +48,14 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
 
       if (employeeToEdit) {
         await updateEmployee({ id: employeeToEdit.id, ...payload }).unwrap();
+        toast.success('Employee updated successfully!', { id: 'emp-update' });
       } else {
         await createEmployee(payload).unwrap();
-        toast.success('Employee created successfully!');
+        toast.success('Employee created successfully!', { id: 'emp-create' });
       }
       onClose();
     } catch (err) {
-      toast.error('Error saving employee. Check console.');
+      toast.error('Error saving employee. Check console.', { id: 'emp-error' });
       console.error(err);
     }
   };

@@ -16,7 +16,7 @@ export default function Header({ title }: { title?: string }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.success('Logged out successfully');
+    toast.success('Logged out successfully', { id: 'logout-toast' });
     router.push('/login');
   };
 

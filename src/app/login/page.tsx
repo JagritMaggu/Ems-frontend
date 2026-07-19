@@ -19,10 +19,10 @@ export default function LoginPage() {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setCredentials({ user: response.user, token: response.token }));
-      toast.success('Login successful!');
+      toast.success('Login successful!', { id: 'login-success' });
       router.push('/');
     } catch (err: any) {
-      toast.error(err.data?.message || 'Login failed. Please check credentials.');
+      toast.error(err.data?.message || 'Login failed. Please check credentials.', { id: 'login-error' });
     }
   };
 
