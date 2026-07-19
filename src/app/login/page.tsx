@@ -55,8 +55,8 @@ export default function LoginPage() {
             />
           </div>
           
-          <button type="submit" disabled={isLoading} className="btn-primary" style={{ width: '100%', padding: '0.75rem', marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
-            {isLoading ? <span className="spinner"></span> : 'Sign In'}
+          <button type="submit" disabled={isLoading} className="btn-primary" style={{ width: '100%', padding: '0.75rem', marginTop: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
+            {isLoading ? <><span className="spinner"></span> Signing In...</> : 'Sign In'}
           </button>
         </form>
       </div>
