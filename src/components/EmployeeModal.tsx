@@ -82,17 +82,24 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
         
         <form onSubmit={handleSubmit} className="modal-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '1.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <div 
-              style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--bg-main)', border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', position: 'relative', flexShrink: 0 }}
-              onClick={() => document.getElementById('profileImageInput')?.click()}
-            >
-              {profileImageFile ? (
-                <img src={URL.createObjectURL(profileImageFile)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : employeeToEdit?.profile_image ? (
-                <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${employeeToEdit.profile_image}`} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : (
-                <svg width="24" height="24" fill="none" stroke="var(--text-muted)" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-              )}
+            <div style={{ position: 'relative' }}>
+              <div 
+                style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--bg-main)', border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}
+              >
+                {profileImageFile ? (
+                  <img src={URL.createObjectURL(profileImageFile)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : employeeToEdit?.profile_image ? (
+                  <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${employeeToEdit.profile_image}`} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <svg width="40" height="40" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                )}
+              </div>
+              <div 
+                onClick={() => document.getElementById('profileImageInput')?.click()}
+                style={{ position: 'absolute', bottom: 0, right: -4, backgroundColor: 'var(--primary)', color: 'white', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: '2px solid var(--bg-card)', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              >
+                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+              </div>
             </div>
             
             <div style={{ flex: 1 }}>
