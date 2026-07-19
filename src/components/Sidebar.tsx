@@ -22,7 +22,7 @@ export default function Sidebar() {
       top: 0,
     }}>
       <div style={{ marginBottom: '2rem', padding: '0 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Employee Management System</h2>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', letterSpacing: '-0.025em' }}>EMS</h1>
         <button className="show-on-mobile" onClick={() => dispatch(closeSidebar())} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-muted)' }}>&times;</button>
       </div>
       

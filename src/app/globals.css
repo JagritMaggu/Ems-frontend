@@ -159,8 +159,9 @@ button {
 }
 
 .sidebar-link:hover {
-  background-color: #f9fafb;
-  color: var(--text-main);
+  background-color: var(--primary-light);
+  color: var(--primary);
+  opacity: 0.85;
 }
 
 .sidebar-link.active {
