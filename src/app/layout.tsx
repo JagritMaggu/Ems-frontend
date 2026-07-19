@@ -22,7 +22,7 @@ export default function RootLayout({
             {children}
             <Toaster position="top-right" toastOptions={{ 
               style: { 
-                background: 'var(--card-bg)', 
+                background: 'var(--bg-card)', 
                 color: 'var(--text-main)', 
                 border: '1px solid var(--border)' 
               } 

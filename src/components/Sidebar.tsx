@@ -11,7 +11,12 @@ export default function Sidebar() {
   const dispatch = useDispatch();
 
   return (
-    <aside className={`sidebar-container ${isSidebarOpen ? 'open' : ''}`} style={{
+    <>
+      <div 
+        className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} 
+        onClick={() => dispatch(closeSidebar())} 
+      />
+      <aside className={`sidebar-container ${isSidebarOpen ? 'open' : ''}`} style={{
       width: '240px',
       height: '100vh',
       backgroundColor: 'var(--bg-sidebar)',
@@ -42,5 +47,6 @@ export default function Sidebar() {
         </Link>
       </nav>
     </aside>
+    </>
   );
 }

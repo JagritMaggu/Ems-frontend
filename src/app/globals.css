@@ -244,6 +244,20 @@ td {
 .status-dot.new { background-color: var(--info); }
 
 /* Responsive Utilities */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (max-width: 768px) {
   .sidebar-container {
     transform: translateX(-100%);
@@ -254,12 +268,17 @@ td {
   .sidebar-container.open {
     transform: translateX(0);
   }
+  .sidebar-overlay.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
   .main-content {
     margin-left: 0 !important;
   }
   .modal-card {
     width: 95% !important;
-    padding: 1.5rem !important;
+    padding: 1rem !important;
   }
   .modal-form-grid {
     grid-template-columns: 1fr !important;
@@ -272,6 +291,21 @@ td {
   }
   .page-padding {
     padding: 1rem !important;
+  }
+  
+  /* Form inputs stack up better */
+  .modal-form-grid > div {
+    grid-column: 1 / -1 !important;
+  }
+  
+  /* Table wrappers */
+  .table-container {
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Flex containers that should wrap on mobile */
+  .mobile-wrap {
+    flex-wrap: wrap;
   }
 }
 

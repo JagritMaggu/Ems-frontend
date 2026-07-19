@@ -45,7 +45,7 @@ export default function Header({ title }: { title?: string }) {
       </div>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <div style={{ textAlign: 'right' }}>
+        <div className="hide-on-mobile" style={{ textAlign: 'right' }}>
           {user?.name ? (
             <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>{user.name}</p>
           ) : (
