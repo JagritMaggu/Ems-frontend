@@ -1,8 +1,10 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import { useDebounce } from 'use-debounce';
 import Papa from 'papaparse';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import toast from 'react-hot-toast';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -21,8 +23,10 @@ export default function EmployeesPage() {
   const [role, setRole] = useState('');
   const [sortBy, setSortBy] = useState('created_at');
   
+  const [debouncedSearch] = useDebounce(searchTerm, 500);
+  
   const { data, isLoading } = useGetEmployeesQuery({ 
-    search: searchTerm, 
+    search: debouncedSearch, 
     department, 
     role,
     sortBy 
@@ -31,7 +35,7 @@ export default function EmployeesPage() {
   const [deleteEmployee] = useDeleteEmployeeMutation();
   const [bulkCreate, { isLoading: isUploading }] = useBulkCreateEmployeesMutation();
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -41,30 +45,30 @@ export default function EmployeesPage() {
       complete: async (results) => {
         try {
           await bulkCreate(results.data).unwrap();
-          alert(`${results.data.length} employees imported successfully!`);
+          toast.success(`${results.data.length} employees imported successfully!`);
         } catch (err) {
-          alert('Failed to import employees. Check CSV format.');
+          toast.error('Failed to import employees. Check CSV format.');
         }
         if (fileInputRef.current) fileInputRef.current.value = '';
       }
     });
-  };
+  }, [bulkCreate]);
 
-  const handleEdit = (employee: any) => {
+  const handleEdit = useCallback((employee: any) => {
     setEditingEmployee(employee);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleAddNew = () => {
+  const handleAddNew = useCallback(() => {
     setEditingEmployee(null);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = useCallback(async (id: string) => {
     if (window.confirm('Are you sure you want to deactivate this employee?')) {
       await deleteEmployee(id);
     }
-  };
+  }, [deleteEmployee]);
 
   return (
     <ProtectedRoute>
