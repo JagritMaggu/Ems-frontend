@@ -89,13 +89,13 @@ export default function EmployeesPage() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', outline: 'none' }} 
                   />
-                  <select value={department} onChange={(e) => setDepartment(e.target.value)} style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', backgroundColor: 'white' }}>
+                  <select value={department} onChange={(e) => setDepartment(e.target.value)} style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                     <option value="">All Departments</option>
                     <option value="Engineering">Engineering</option>
                     <option value="HR">HR</option>
                     <option value="Sales">Sales</option>
                   </select>
-                  <select value={role} onChange={(e) => setRole(e.target.value)} style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', backgroundColor: 'white' }}>
+                  <select value={role} onChange={(e) => setRole(e.target.value)} style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                     <option value="">All Roles</option>
                     <option value="EMPLOYEE">Employee</option>
                     <option value="HR_MANAGER">HR Manager</option>

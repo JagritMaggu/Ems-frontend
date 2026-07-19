@@ -143,7 +143,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
 
           <div>
             <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Role *</label>
-            <select name="role" value={formData.role} onChange={handleChange} required disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', backgroundColor: 'white' }}>
+            <select name="role" value={formData.role} onChange={handleChange} required disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
               <option value="EMPLOYEE">Employee</option>
               <option value="HR_MANAGER">HR Manager</option>
               {user?.role === 'SUPER_ADMIN' && <option value="SUPER_ADMIN">Super Admin</option>}
@@ -152,7 +152,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
 
           <div>
             <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Status</label>
-            <select name="status" value={formData.status} onChange={handleChange} disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', backgroundColor: 'white' }}>
+            <select name="status" value={formData.status} onChange={handleChange} disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
