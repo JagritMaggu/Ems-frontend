@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { useCreateEmployeeMutation, useUpdateEmployeeMutation } from '@/store/api';
+import { useCreateEmployeeMutation, useUpdateEmployeeMutation, useGetEmployeesQuery } from '@/store/api';
 import toast from 'react-hot-toast';
 
 interface EmployeeModalProps {
@@ -15,6 +15,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
   const user = useSelector((state: RootState) => state.auth.user);
   const [createEmployee, { isLoading: isCreating }] = useCreateEmployeeMutation();
   const [updateEmployee, { isLoading: isUpdating }] = useUpdateEmployeeMutation();
+  const { data: employeesData } = useGetEmployeesQuery({});
 
   const [formData, setFormData] = useState({
     name: employeeToEdit?.name || '',
@@ -26,6 +27,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
     joining_date: employeeToEdit?.joining_date ? new Date(employeeToEdit.joining_date).toISOString().split('T')[0] : '',
     status: employeeToEdit?.user?.status || 'Active',
     role: employeeToEdit?.user?.role || 'EMPLOYEE',
+    reporting_manager_id: employeeToEdit?.reporting_manager_id || '',
     password: ''
   });
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
@@ -158,6 +160,19 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
             <select name="status" value={formData.status} onChange={handleChange} disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Reporting Manager</label>
+            <select name="reporting_manager_id" value={formData.reporting_manager_id} onChange={handleChange} disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+              <option value="">None (Top Level)</option>
+              {employeesData?.data?.map((emp: any) => (
+                // Filter out themselves so they can't assign themselves as manager
+                emp.id !== employeeToEdit?.id && (
+                  <option key={emp.id} value={emp.id}>{emp.name} ({emp.designation || 'Employee'})</option>
+                )
+              ))}
             </select>
           </div>
           
