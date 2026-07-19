@@ -192,9 +192,8 @@ export default function EmployeesPage() {
                                 </button>
                               )}
                               
-                              {/* RBAC: Only Super Admin can toggle status or delete */}
-                              {user?.role === 'SUPER_ADMIN' && (
-                                <>
+                              {/* RBAC: Super Admin can toggle status or delete. HR Manager can toggle status of employees. */}
+                              {(user?.role === 'SUPER_ADMIN' || (user?.role === 'HR_MANAGER' && emp.user.role === 'EMPLOYEE')) && (
                                   <button onClick={() => setConfirmModal({ isOpen: true, type: 'status', empId: emp.id, empName: emp.name, currentStatus: emp.user.status })} style={{ cursor: 'pointer', color: emp.user.status === 'Active' ? 'var(--warning)' : 'var(--success)', background: 'none', border: 'none', padding: '0.25rem' }} title={emp.user.status === 'Active' ? 'Deactivate' : 'Activate'}>
                                     {emp.user.status === 'Active' ? (
                                       <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -202,11 +201,13 @@ export default function EmployeesPage() {
                                       <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     )}
                                   </button>
+                              )}
 
+                              {/* RBAC: Only Super Admin can delete */}
+                              {user?.role === 'SUPER_ADMIN' && (
                                   <button onClick={() => setConfirmModal({ isOpen: true, type: 'delete', empId: emp.id, empName: emp.name })} style={{ cursor: 'pointer', color: 'var(--danger)', background: 'none', border: 'none', padding: '0.25rem' }} title="Delete">
                                     <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                   </button>
-                                </>
                               )}
                             </div>
                           </td>

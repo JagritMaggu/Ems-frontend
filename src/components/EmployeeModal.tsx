@@ -18,19 +18,40 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
   const { data: employeesData } = useGetEmployeesQuery({});
 
   const [formData, setFormData] = useState({
-    name: employeeToEdit?.name || '',
-    email: employeeToEdit?.user?.email || '',
-    phone: employeeToEdit?.phone || '',
-    department: employeeToEdit?.department || '',
-    designation: employeeToEdit?.designation || '',
-    salary: employeeToEdit?.salary || '',
-    joining_date: employeeToEdit?.joining_date ? new Date(employeeToEdit.joining_date).toISOString().split('T')[0] : '',
-    status: employeeToEdit?.user?.status || 'Active',
-    role: employeeToEdit?.user?.role || 'EMPLOYEE',
-    reporting_manager_id: employeeToEdit?.reporting_manager_id || '',
+    name: '',
+    email: '',
+    phone: '',
+    department: '',
+    designation: '',
+    salary: '',
+    joining_date: '',
+    status: 'Active',
+    role: 'EMPLOYEE',
+    reporting_manager_id: '',
     password: ''
   });
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
+  React.useEffect(() => {
+    if (employeeToEdit) {
+      setFormData({
+        name: employeeToEdit.name || '',
+        email: employeeToEdit.user?.email || '',
+        phone: employeeToEdit.phone || '',
+        department: employeeToEdit.department || '',
+        designation: employeeToEdit.designation || '',
+        salary: employeeToEdit.salary || '',
+        joining_date: employeeToEdit.joining_date ? new Date(employeeToEdit.joining_date).toISOString().split('T')[0] : '',
+        status: employeeToEdit.user?.status || 'Active',
+        role: employeeToEdit.user?.role || 'EMPLOYEE',
+        reporting_manager_id: employeeToEdit.reporting_manager_id || '',
+        password: ''
+      });
+    } else {
+      setFormData({ name: '', email: '', phone: '', department: '', designation: '', salary: '', joining_date: '', status: 'Active', role: 'EMPLOYEE', reporting_manager_id: '', password: '' });
+    }
+    setProfileImageFile(null);
+  }, [employeeToEdit]);
 
   if (!isOpen) return null;
 
