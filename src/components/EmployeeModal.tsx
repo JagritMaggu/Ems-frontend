@@ -28,6 +28,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
     role: employeeToEdit?.user?.role || 'EMPLOYEE',
     password: ''
   });
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
   if (!isOpen) return null;
 
@@ -43,11 +44,23 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const payload = { ...formData, salary: Number(formData.salary) };
-      if (!payload.password) delete (payload as any).password; // Don't send empty password on update
+      const payload = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (key === 'salary') {
+          payload.append('salary', String(Number((formData as any)[key])));
+        } else if (key === 'password' && !(formData as any).password) {
+          // Skip empty password
+        } else if ((formData as any)[key] !== undefined && (formData as any)[key] !== null && (formData as any)[key] !== '') {
+          payload.append(key, (formData as any)[key]);
+        }
+      });
+      
+      if (profileImageFile) {
+        payload.append('profile_image', profileImageFile);
+      }
 
       if (employeeToEdit) {
-        await updateEmployee({ id: employeeToEdit.id, ...payload }).unwrap();
+        await updateEmployee({ id: employeeToEdit.id, data: payload }).unwrap();
         toast.success('Employee updated successfully!', { id: 'emp-update' });
       } else {
         await createEmployee(payload).unwrap();
@@ -71,6 +84,11 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
           <div style={{ gridColumn: '1 / -1' }}>
             <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Full Name *</label>
             <input name="name" value={formData.name} onChange={handleChange} required disabled={user?.role === 'EMPLOYEE'} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }} />
+          </div>
+
+          <div style={{ gridColumn: '1 / -1' }}>
+            <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Profile Image</label>
+            <input type="file" accept="image/*" onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--bg-main)', color: 'var(--text-main)' }} />
           </div>
           
           <div>

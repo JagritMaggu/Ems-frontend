@@ -70,10 +70,10 @@ export const apiSlice = createApi({
     }),
 
     updateEmployee: builder.mutation({
-      query: ({ id, ...updateData }) => ({
+      query: ({ id, data }) => ({
         url: `/employees/${id}`,
         method: 'PUT',
-        body: updateData,
+        body: data,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Employee', id }, { type: 'Employee', id: 'LIST' }, 'Dashboard', 'Organization'],
     }),

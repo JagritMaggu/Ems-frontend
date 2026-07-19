@@ -143,7 +143,16 @@ export default function EmployeesPage() {
                     ) : data?.data?.length > 0 ? (
                       data.data.map((emp: any, index: number) => (
                         <tr key={emp.id}>
-                          <td style={{ fontWeight: 500 }}>{emp.name}</td>
+                          <td style={{ fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.875rem', flexShrink: 0, overflow: 'hidden' }}>
+                              {emp.profile_image ? (
+                                <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${emp.profile_image}`} alt={emp.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              ) : (
+                                emp.name.substring(0, 2).toUpperCase()
+                              )}
+                            </div>
+                            {emp.name}
+                          </td>
                           <td style={{ color: 'var(--text-muted)' }}>{emp.user.email}</td>
                           <td>{emp.department || '-'}</td>
                           <td>{emp.joining_date ? new Date(emp.joining_date).toLocaleDateString() : '-'}</td>
