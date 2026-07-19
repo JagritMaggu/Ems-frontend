@@ -159,6 +159,26 @@ button {
   color: white;
 }
 
+.btn-success {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  background-color: transparent;
+  border: 1px solid var(--success);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-success:hover {
+  background-color: var(--success);
+  color: white;
+}
+
 .sidebar-link {
   display: flex;
   align-items: center;
