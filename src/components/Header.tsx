@@ -64,7 +64,15 @@ export default function Header({ title }: { title?: string }) {
           )}
         </button>
         <div 
-          onClick={() => setIsProfileModalOpen(true)}
+          onClick={() => {
+            if (user?.role === 'SUPER_ADMIN' && !user?.employee_profile?.id) {
+              toast('Super Admin has no employee profile to edit.', { icon: 'ℹ️' });
+            } else if (!user?.employee_profile?.id) {
+              toast.error('Session expired or incomplete. Please re-login.');
+            } else {
+              setIsProfileModalOpen(true);
+            }
+          }}
           title="Edit Profile"
           style={{ 
           width: '36px', height: '36px', 
