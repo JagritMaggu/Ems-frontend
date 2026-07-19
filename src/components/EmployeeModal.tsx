@@ -159,7 +159,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
           </div>
           
           <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
-            <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>Cancel</button>
+            <button type="button" onClick={onClose} className="btn-danger">Cancel</button>
             <button type="submit" className="btn-primary" disabled={isCreating || isUpdating}>
               {isCreating || isUpdating ? 'Saving...' : 'Save Employee'}
             </button>

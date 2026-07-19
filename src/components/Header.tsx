@@ -70,7 +70,7 @@ export default function Header({ title }: { title?: string }) {
         
         <button 
           onClick={handleLogout}
-          style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--danger)', border: '1px solid var(--danger)', borderRadius: 'var(--radius-sm)' }}
+          className="btn-danger"
         >
           Logout
         </button>
