@@ -67,7 +67,7 @@ export default function Dashboard() {
                       <BarChart data={stats?.data?.departmentDistribution || []}>
                         <XAxis dataKey="department" stroke="var(--text-muted)" fontSize={12} />
                         <YAxis stroke="var(--text-muted)" fontSize={12} allowDecimals={false} />
-                        <Tooltip contentStyle={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--border)', color: 'var(--text-main)' }} itemStyle={{ color: 'var(--text-main)' }} />
+                        <Tooltip cursor={false} contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border)', color: 'var(--text-main)' }} itemStyle={{ color: 'var(--text-main)' }} />
                         <Bar dataKey="count" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
@@ -90,7 +90,7 @@ export default function Dashboard() {
                           <Cell fill="var(--success)" />
                           <Cell fill="var(--danger)" />
                         </Pie>
-                        <Tooltip contentStyle={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--border)', color: 'var(--text-main)' }} itemStyle={{ color: 'var(--text-main)' }} />
+                        <Tooltip contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border)', color: 'var(--text-main)' }} itemStyle={{ color: 'var(--text-main)' }} />
                       </PieChart>
                     </ResponsiveContainer>
                   )}
