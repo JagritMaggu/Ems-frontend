@@ -44,7 +44,7 @@ export default function EmployeeModal({ isOpen, onClose, employeeToEdit }: Emplo
     e.preventDefault();
     try {
       const payload = { ...formData, salary: Number(formData.salary) };
-      if (!payload.password) delete payload.password; // Don't send empty password on update
+      if (!payload.password) delete (payload as any).password; // Don't send empty password on update
 
       if (employeeToEdit) {
         await updateEmployee({ id: employeeToEdit.id, ...payload }).unwrap();
