@@ -105,7 +105,7 @@ export default function EmployeesPage() {
                   {user?.role !== 'EMPLOYEE' && (
                     <>
                       <input type="file" accept=".csv" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileUpload} />
-                      <button className="btn-primary" style={{ backgroundColor: '#10b981', borderColor: '#10b981', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => fileInputRef.current?.click()} disabled={isUploading}>
+                      <button className="btn-success" onClick={() => fileInputRef.current?.click()} disabled={isUploading}>
                         {isUploading ? <><span className="spinner"></span> Importing...</> : 'Import CSV'}
                       </button>
                       <button className="btn-primary" onClick={handleAddNew}>Add +</button>

@@ -103,7 +103,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <h3 style={{ fontWeight: 600 }}>Recent Employees</h3>
                 <Link href="/employees">
-                  <button className="btn-primary" style={{ backgroundColor: 'var(--bg-card)', color: 'var(--primary)', border: '1px solid var(--primary)' }}>View All Directory</button>
+                  <button className="btn-primary">View All Directory</button>
                 </Link>
               </div>
               
